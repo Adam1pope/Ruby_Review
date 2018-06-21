@@ -1,0 +1,46 @@
+<h1> <%= @event.name %> </h1> 
+<h4>Host: <%= @event.user.first_name %></h4>
+<h4>Date: <%= @event.date.strftime("%b %d %Y ") %></h4>
+<h4>Location: <%= @event.city %>, <%= @event.state %></h4>
+<h4>People who are joining the event: <%= @event.users_attended.count %> </h4>  <!--users_attended accesses Attended, grabs count -->
+
+  <table>
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>State</th>
+      </tr>
+
+      <% @event.users_attended.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.city %></td>
+        <td><%= user.state %></td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+<br>
+<br>
+
+<h1><% @event.comments.each do |comment| %> </h1>
+	<h4><%= comment.author %> says: <%= comment.text %> </h4>
+<% end %>	
+
+
+
+ <div>
+    <form action="/events/<%= @event.id %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="text" name="comment">
+      <button type="submit">Add Comment</button>
+    </form>
+  </div>  
+
+
+
+
+ <h3 align="right"><a href="/sessions">Logout</a></h3>
+ <h3 align= "right"> <a href="/events">Event Dashboard</a> </h3>

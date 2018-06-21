@@ -1,0 +1,39 @@
+<h1>Editing Your Profile</h1>
+
+  <div>
+    <form action="/users/<%= @user.id %>" method="post">
+      <input type = "hidden" name="_method" value="patch">	
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+     
+     First Name: <input type="text" name="user[first_name]" value="<%= @user.first_name %>">
+     Last Name:<input type="text" name="user[last_name]" value="<%= @user.last_name %>">
+     Email: <input type="text" name="user[email]" value="<%= @user.email %>">
+     City: <input type="text" name="user[city]" value="<%= @user.city %>">
+     State:   <select name="user[state]">
+                  <option value="Texas">TX </option>
+                  <option value="Arizona">AZ</option>
+                  <option value="California">CA</option>
+                  <option value="Washington">WA</option>
+                  <option value="Pennsylvania">PA </option>
+                  <option value="Florida">FL</option>
+                  <option value="Louisiana">LA</option>
+                  <option value="Kansas">KS</option>
+                  <option value="Wisconsin">WI</option>
+                  <option value="Oklahoma">OK</option>
+              </select>
+     
+      <button type="submit">Update</button>
+    </form>
+  </div>
+
+
+
+<h3> <a href="/events">Event Dashboard</a> </h3>
+
+    <div>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <p><font color= "red"><%= error %></font></p>
+      <% end%>
+    <% end %>
+  </div>

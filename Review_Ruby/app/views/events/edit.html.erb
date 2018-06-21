@@ -1,0 +1,33 @@
+<h3>Edit Event</h3>
+<form action ="/events/<%= @event.id %>" method="post">
+	<input type = "hidden" name="_method" value="patch">	
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+
+     Name: <input type="text" name="event[name]" value="<%= @event.name  %>">
+     Date:<input type="date" name="event[date]" value="<%= @event.date  %>">
+     City: <input type="text" name="event[city]" value="<%= @event.city  %>">
+     State: 	<select name="event[state]" value="<%= @event.state  %>">
+					  <option value="Texas">TX </option>
+					  <option value="Arizona">AZ</option>
+					  <option value="California">CA</option>
+					  <option value="Washington">WA</option>
+					  <option value="Pennsylvania">PA </option>
+					  <option value="Florida">FL</option>
+					  <option value="Louisiana">LA</option>
+					  <option value="Kansas">KS</option>
+					  <option value="Wisconsin">WI</option>
+					  <option value="Oklahoma">OK</option>
+				</select>
+
+     <button type="submit">Update Event</button>
+
+</form>	
+
+
+  <div>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <p><font color= "red"><%= error %></font></p>
+      <% end%>
+    <% end %>
+  </div>

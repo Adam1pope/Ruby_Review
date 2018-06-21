@@ -1,0 +1,122 @@
+  <div>
+    <% if flash[:success] %>
+      <p><%= flash[:success] %></p>
+    <% end %>
+  </div>
+
+  <h1>Welcome <%= @user.first_name %> </h1>
+  <br>
+
+  <h3>Events in your state</h3>
+
+  <table>
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Host</th>
+        <th>Action/status</th>
+      </tr>
+
+      <% @events_state.each do |event| %>
+      <tr>
+        <td><a href="/events/<%= event.id %>/show"> <%= event.name %> </a></td>
+        <td><%= event.date.strftime("%b %d %Y ") %></td>
+        <td><%= event.city %></td>
+        <td><%= event.user.first_name  %></td>        <!-- this finds the NAME of the user who created event -->
+        <td>
+     			<% if event.user.first_name == @user.first_name %>  <!--this checks to see if the current logged in user has events, if so you can edit -->
+      				<a href="/events/<%= event.id %>/edit">Edit</a>
+      				<a href="/events/<%= event.id %>" data-method="delete">Delete
+      			<% elsif event.users_attended.include?(@user) %>  <!--This allows the event to talk to User table through Attendees table -->
+                 <span> Joining </span> <a href="/attendees/<%= event.id %>/delete" data-method="delete">Cancel</a> 
+                <% else %>
+                 <a href="/events/<%= event.id %>/join"> Join </a>           
+                <%end%>    
+         </td>
+      </tr>
+      <% end %>
+
+
+
+    </tbody>
+  </table>
+
+    <h3>Events in other states</h3>
+
+  <table>
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Host</th>
+        <th>Action/status</th>
+      </tr>
+
+      <% @other_state.each do |event| %>
+      <tr>
+        <td><a href="/events/<%= event.id %>/show"> <%= event.name %> </a> </td>
+        <td><%= event.date.strftime("%b %d %Y ") %></td>
+        <td><%= event.city %></td>
+        <td><%= event.user.first_name  %></td>        <!-- this finds the NAME of the user who created event -->
+        <td>
+     			<% if event.user.first_name == @user.first_name %>  <!--this checks to see if the current logged in user has events, if so you can edit -->
+      				<a href="/events/<%= event.id %>/edit">Edit</a>
+      				<a href="/events/<%= event.id %>" data-method="delete">Delete
+      			<% elsif event.users_attended.include?(@user) %>  <!--This allows the event to talk to User table through Attendees table -->
+                 <span> Joining </span> <a href="/attendees/<%= event.id %>/delete" data-method="delete">Cancel</a> 
+                <% else %>
+                 <a href="/events/<%= event.id %>/join"> Join </a>           
+                <%end%> 
+       </td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+
+
+
+<h3>Add Event</h3>
+<form action ="/events" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+
+     Name: <input type="text" name="event[name]">
+     Date:<input type="date" name="event[date]">
+     City: <input type="text" name="event[city]">
+     State: 	<select name="event[state]">
+					  <option value="Texas">TX </option>
+					  <option value="Arizona">AZ</option>
+					  <option value="California">CA</option>
+					  <option value="Washington">WA</option>
+					  <option value="Pennsylvania">PA </option>
+					  <option value="Florida">FL</option>
+					  <option value="Louisiana">LA</option>
+					  <option value="Kansas">KS</option>
+					  <option value="Wisconsin">WI</option>
+					  <option value="Oklahoma">OK</option>
+				</select>
+
+     <button type="submit">Add Event</button>
+
+</form>	
+
+  <div>
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <p><font color= "red"><%= error %></font></p>
+      <% end%>
+    <% end %>
+  </div>
+
+
+
+
+  <h3 align="right"><a href="/sessions">Logout</a></h3>
+  <h3 align="right"><a href="/users/<%= @user.id %>/edit">Edit My Profile</a></h3>
+
+
+
+
